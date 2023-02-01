@@ -138,8 +138,6 @@ def add_constraints(s, cells, variant=None):
         diagonal_constraints(s, cells)
     if 'windoku' in variant:
         windoku_constraints(s, cells)
-    if 'sandwich' in variant:
-        sandwich_constraints(s, cells)
 
 
 def valid_coordinates(c, r):
@@ -280,20 +278,6 @@ def windoku_constraints(s, cells):
             for dy, dx in offsets:
                 group_cells.append(cells[r + dy][c + dx])
             s.add(z3.Distinct(group_cells))
-
-
-def sandwich_constraints(s, cells):
-
-    cells_hor = [[None for _ in numbers()] for _ in rows()]  # Interpretation: y[r][i] is where i is in row r
-    for r in rows():
-        for i in numbers():
-            # Z3 variables have a name
-            v = z3.Int('y_%d_%d' % (r, i))
-            # Keep a reference to the Z3 variable in our sudoku.
-            cells_hor[r][i] = v
-            s.add(z3.eq(i, cells[r][cells_hor[r][i]]))
-            #  https://stackoverflow.com/questions/49474310/how-to-use-z3-bitvec-or-int-as-an-array-index
-            # use z3.Select and replace cells with actual z3 Array
 
 
 def classic_constraints(s, cells):
