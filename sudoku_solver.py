@@ -54,8 +54,8 @@ def solve_sudoku(known_values, variant=None, extra_input=None):
 
     # Create a Z3 solver
     s = z3.Solver()
-    # Create a matrix which is our sudoku.
-    cells = [z3.Array(f'c_{r}', z3.IntSort(), z3.IntSort()) for r in rows()]
+    # Create an array which contains our sudoku.
+    cells = z3.Array('cells', z3.IntSort(), z3.ArraySort(z3.IntSort(), z3.IntSort()))
     for r in rows():
         for c in cols():
             # If this cell contains a hint, then add a constraint that force
@@ -103,9 +103,6 @@ def z3_sum_between(vec, x1, x2):
 
 
 def sandwich_constraints(s, cells, extra_input):
-    cells_transpose = [z3.Array(f'tc_{r}', z3.IntSort(), z3.IntSort()) for r in rows()]
-    [[s.add(cells[r][c] == cells_transpose[c][r]) for r in rows()] for c in cols()]
-
     for r in rows():
         if r in extra_input['sandwich']['row']:
             x1 = z3.Int(f'sw1_r_{r}')
@@ -121,8 +118,8 @@ def sandwich_constraints(s, cells, extra_input):
             x9 = z3.Int(f'sw9_c_{c}')
             s.add(x1 >= 0, x9 >= 0)
             s.add(x1 < 9, x9 < 9)
-            s.add(cells_transpose[c][x1] == 1)
-            s.add(cells_transpose[c][x9] == 9)
+            s.add(cells[x1][c] == 1)
+            s.add(cells[x9][c] == 9)
             col = [cells[r][c] for r in rows()]
             s.add(z3_sum_between(col, x1, x9) == extra_input['sandwich']['col'][c])
 
