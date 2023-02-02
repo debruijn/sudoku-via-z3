@@ -2,8 +2,8 @@ import itertools
 import sys
 import z3
 
-import sudoku_solver
-from sudoku_solver import rows, cols, sudoku_from_string
+import sudoku_solver_legacy
+from sudoku_solver_legacy import rows, cols, sudoku_from_string
 from collections import defaultdict
 
 
@@ -91,7 +91,7 @@ def add_constraints(s, cells, variant=None, extra_input=None):
     if variant is None:
         variant = []
     classic_constraints(s, cells)
-    sudoku_solver.add_constraints(s, cells, variant)
+    sudoku_solver_legacy.add_constraints(s, cells, variant)
     if 'sandwich' in variant:
         sandwich_constraints(s, cells, extra_input)
 
