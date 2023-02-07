@@ -96,32 +96,32 @@ def add_constraints(s, cells, variant=None, extra_input=None):
         sandwich_constraints(s, cells, extra_input)
 
 
-def z3_sum_between(vec, x1, x2):
-    return z3.If(x1 < x2,
-                 z3.Sum([z3.If(z3.And(i > x1, i < x2), vec[i], 0) for i in cols()]),
-                 z3.Sum([z3.If(z3.And(i > x2, i < x1), vec[i], 0) for i in cols()]))
+def z3_sum_between(vec, ind_1, ind_9):
+    return z3.If(ind_1 < ind_9,
+                 z3.Sum([z3.If(z3.And(i > ind_1, i < ind_9), vec[i], 0) for i in cols()]),
+                 z3.Sum([z3.If(z3.And(i > ind_9, i < ind_1), vec[i], 0) for i in cols()]))
 
 
 def sandwich_constraints(s, cells, extra_input):
     for r in rows():
         if r in extra_input['sandwich']['row']:
-            x1 = z3.Int(f'sw1_r_{r}')
-            x9 = z3.Int(f'sw9_r_{r}')
-            s.add(x1 >= 0, x9 >= 0)
-            s.add(x1 < 9, x9 < 9)
-            s.add(cells[r][x1] == 1)
-            s.add(cells[r][x9] == 9)
-            s.add(z3_sum_between(cells[r], x1, x9) == extra_input['sandwich']['row'][r])
+            ind_1 = z3.Int(f'sw1_r_{r}')
+            ind_9 = z3.Int(f'sw9_r_{r}')
+            s.add(ind_1 >= 0, ind_9 >= 0)
+            s.add(ind_1 < 9, ind_9 < 9)
+            s.add(cells[r][ind_1] == 1)
+            s.add(cells[r][ind_9] == 9)
+            s.add(z3_sum_between(cells[r], ind_1, ind_9) == extra_input['sandwich']['row'][r])
     for c in cols():
         if c in extra_input['sandwich']['col']:
-            x1 = z3.Int(f'sw1_c_{c}')
-            x9 = z3.Int(f'sw9_c_{c}')
-            s.add(x1 >= 0, x9 >= 0)
-            s.add(x1 < 9, x9 < 9)
-            s.add(cells[x1][c] == 1)
-            s.add(cells[x9][c] == 9)
+            ind_1 = z3.Int(f'sw1_c_{c}')
+            ind_9 = z3.Int(f'sw9_c_{c}')
+            s.add(ind_1 >= 0, ind_9 >= 0)
+            s.add(ind_1 < 9, ind_9 < 9)
+            s.add(cells[ind_1][c] == 1)
+            s.add(cells[ind_9][c] == 9)
             col = [cells[r][c] for r in rows()]
-            s.add(z3_sum_between(col, x1, x9) == extra_input['sandwich']['col'][c])
+            s.add(z3_sum_between(col, ind_1, ind_9) == extra_input['sandwich']['col'][c])
 
 
 def classic_constraints(s, cells):
