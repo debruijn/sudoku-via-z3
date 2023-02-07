@@ -258,7 +258,7 @@ def diagonal_constraints(s, cells):
     s.add(z3.Distinct(diagonal))
 
     # All cells on the antidiagonal must be distinct.
-    alt_diagonal = [cells[9-r][r] for r in rows()]
+    alt_diagonal = [cells[8-r][r] for r in rows()]
     s.add(z3.Distinct(alt_diagonal))
 
 
