@@ -6,6 +6,8 @@ This repository contains code and examples to use Z3 for solving (variant) Sudok
 - sudoku_solver.py, which extends the above with sandwich constraints
   - This requires to look at the dual problem formulation: instead of "what is on loc i,j", it looks at 
   "where is num N in row i", to find the 1s and 9s. 
+  - Instead of using an array of z3.Int's, we need to instead use an z3.Array definition that allows us to use the 
+  z3_sum_between function, which otherwise would not be possible
 
 ## Future ideas
 
