@@ -169,6 +169,8 @@ def classic_constraints(s, cells):
 
 # Main: read a sudoku from a file or stdin
 if __name__ == '__main__':
+    # Use: python3 sudoku_solver.py puzzles/classic.pzl classic
+
     if len(sys.argv) >= 2:
         with open(sys.argv[1]) as f:
             input_values, extra_input = read_sudoku(f)
