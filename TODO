@@ -1,0 +1,37 @@
+TODO:
+- Clean up repo (folder for examples, gitignore, readme, etc)
+- Investigate how to use GUI (basic)
+- Show sudoku input and result via GUI
+- Make GUI interactive: add/remove given numbers, add restrictions, etc
+- Write-out GUI puzzle to file
+- Add tests
+- Make available online
+
+
+
+GUI goals and approach:
+First
+- Show Sudoku grid using my structure, from list of supported puzzles
+- Fill in answers -> count markers for wrong answers
+- Buttons to Reset or Auto-solve using Z3
+
+Then
+- Allow custom sudoku input (so type-in by human)
+- Allow file browser to plug in puzzle in text format
+- Allow "fixed" custom rules with toggles: Knight, King, Diagonal, Non-consecutive, Windoku
+- Press of a button, show all numbers that can still be placed in each cell following the rules (in a simple way)
+
+Then-then
+- Think about how to support custom rules that need extra specification
+    - Numbers along the side for sandwich, x-sum, running cells
+    - Markers within cells for Even/Odd
+    - Lines across cells to mark German/Dutch whispers, Renban, Thermo, Arrow
+    - Grouping cells together for Killer
+    - Arrows along the side for Little Killer
+    - Symbols between cells for X/V, Greater/Lesser than, Parity checks, Consecutive, Kropki
+    - Different subgrids
+- Allow for different sizes of the puzzle: 6x6, 9x9, 16x16
+- Allow for Sudoku Samurai style grids somehow
+- Alternative "realistic" solver that tries logic first -> can show that graphically as well
+- Alternative "guessing" solver that just tries the options still available
+- Allow to link them up -> first "realistic" (and show that grid) and then "guessing" or "z3-solver"
