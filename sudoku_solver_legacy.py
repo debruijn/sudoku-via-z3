@@ -98,7 +98,8 @@ def solve_sudoku(known_values, variant=None):
             # If this cell contains a hint, then add a constraint that force
             # the current variable to be equal to the hint.
             if (r, c) in known_values:
-                s.add(v == known_values[(r, c)])
+                if known_values[(r, c)] > 0:
+                    s.add(v == known_values[(r, c)])
 
     # This function adds all the constraints of a classic sudoku
     add_constraints(s, cells, variant=variant)

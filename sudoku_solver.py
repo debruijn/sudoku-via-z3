@@ -70,19 +70,27 @@ def solve_sudoku(known_values, variant=None, extra_input=None):
         # Retrieve the model from the solver. In this model all the variables
         # are grounded (i.e.: they have a value)
         m = s.model()
+        solution = []
         for r in rows():
+            row_solution = []
             for c in cols():
                 # Retrieve the grounded value and print it.
                 v = m.evaluate(cells[r][c])
+                row_solution.append(v)
                 print(v, end=' ')
                 # Add vertical spacing for a subgrid
                 if (c + 1) % 3 == 0:
                     print('  ', end='')
             print()
+            solution.append(row_solution)
             # Add horizontal spacing for a subgrid
             if (r + 1) % 3 == 0:
                 print()
         print()
+
+        return solution
+    else:
+        return None
 
 
 def add_constraints(s, cells, variant=None, extra_input=None):
