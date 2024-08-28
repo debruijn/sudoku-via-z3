@@ -139,6 +139,8 @@ def add_constraints(s, cells, variant=None):
         diagonal_constraints(s, cells)
     if 'windoku' in variant:
         windoku_constraints(s, cells)
+    if 'global' in variant:
+        global_constraints(s, cells)
 
 
 def valid_coordinates(c, r):
@@ -279,6 +281,21 @@ def windoku_constraints(s, cells):
             for dy, dx in offsets:
                 group_cells.append(cells[r + dy][c + dx])
             s.add(z3.Distinct(group_cells))
+
+
+def global_constraints(s, cells):
+    """Adds the global sudoku constraints to a z3 solver.
+
+    Args:
+        s: z3.Solver instance.
+        cells: a 9x9 list of lists, where each element is a z3.Int instance.
+    """
+    offsets = list(itertools.product(range(0, 9, 3), range(0, 9, 3)))
+    for r, c in itertools.product(range(1, 3), range(1, 3)):
+        group_cells = []
+        for dy, dx in offsets:
+            group_cells.append(cells[r+dy][c+dx])
+        s.add(z3.Distinct(group_cells))
 
 
 def classic_constraints(s, cells):
